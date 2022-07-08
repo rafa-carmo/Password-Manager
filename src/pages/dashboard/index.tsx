@@ -1,17 +1,16 @@
 import { Password } from '@prisma/client'
 import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
-import { HomeTemplate } from 'templates/Home'
+import { HomeProps, HomeTemplate } from 'templates/Home'
 
 import { getAPIClient } from '../../services/axios'
 
 interface DashboardProps {
-  passwords?: Password[]
+  home: HomeProps
 }
 // const Home = ({ users }: HomeProps) => {
-const Home = ({ passwords }: DashboardProps) => {
-  console.log(passwords)
-  return <HomeTemplate />
+const Home = ({ home }: DashboardProps) => {
+  return <HomeTemplate {...home} />
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -36,7 +35,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // console.log(users)
   return {
     props: {
-      passwords
+      home: {
+        table: {
+          rows: passwords
+        }
+      }
     }
   }
 }

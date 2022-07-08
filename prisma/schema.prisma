@@ -29,10 +29,18 @@ model User {
 
 model Password {
   id            String @id @default(uuid())
+  title         String @default("Title")
   user          User @relation(fields: [userId], references: [id])
-  userId        String @unique
+  userId        String
+  tags          Tag[]
   login         String?
   password      String
   createdAt     DateTime @default(now())
 }
 
+
+model Tag {
+  id            String @id @default(uuid())
+  name          String
+  passwords     Password[]
+}

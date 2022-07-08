@@ -1,6 +1,5 @@
 import { Loading } from 'components/Loading'
 import { AuthContext } from 'contexts/AuthContext'
-import { useRouter } from 'next/router'
 import { Eye, Key, EyeClosed } from 'phosphor-react'
 import React, { useState } from 'react'
 import { useContext } from 'react'

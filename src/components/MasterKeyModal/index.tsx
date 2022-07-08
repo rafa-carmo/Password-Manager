@@ -53,7 +53,7 @@ export function MasterKeyModal() {
           <XCircle size={22} />
         </button>
         <h2 className="font-bold font-serif text-lg">
-          Digite sua chave mestre para visualizar as outras senhas
+          Digite sua chave mestre para visualizar e adicionar senhas.
         </h2>
         <div className="md:flex md:items-center my-6 w-3/4 gap-2">
           <div className="md:w-1/3">
