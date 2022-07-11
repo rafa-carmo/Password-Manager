@@ -1,5 +1,5 @@
 import { MasterKeyModal } from 'components/MasterKeyModal'
-import Menu from 'components/Menu'
+import Menu, { MenuProps } from 'components/Menu'
 import { ErrorContext } from 'contexts/ErrorContext'
 import { KeyContext } from 'contexts/KeyContext'
 import { ModalContext } from 'contexts/ModalOpen'
@@ -8,11 +8,12 @@ import { useRef, useEffect, useState, useContext } from 'react'
 
 import * as S from './styles'
 
-interface BaseProps {
+export interface BaseProps {
+  menuProps?: MenuProps
   children: React.ReactNode
 }
 
-export default function Base({ children }: BaseProps) {
+export default function Base({ menuProps, children }: BaseProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [width, setWidth] = useState(0)
   const { time, deleteKey, status } = useContext(KeyContext)
@@ -38,7 +39,7 @@ export default function Base({ children }: BaseProps) {
         {error && <S.ErrorText>{error}</S.ErrorText>}
       </S.Error>
       <S.MenuContainer>
-        <Menu />
+        <Menu {...menuProps} />
       </S.MenuContainer>
       <S.Content ref={ref}>
         <MasterKeyModal />

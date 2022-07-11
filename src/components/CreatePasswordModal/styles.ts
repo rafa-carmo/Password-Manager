@@ -33,9 +33,11 @@ export const Content = tw.div` relative
 `
 
 export const Form = tw.form`
+    mt-5
     flex
-    items-center 
-    justify-center
+    flex-col
+    items-end 
     w-full 
     gap-4
+    px-10
 `

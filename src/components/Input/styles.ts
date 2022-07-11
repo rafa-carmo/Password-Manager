@@ -1,22 +1,24 @@
 import tw from 'tailwind-styled-components'
 
 export const LabelInput = tw.label`
+
     absolute 
     left-2 
     top-2 
     bg-transparent 
     px-1 
     text-zinc-400 
-
+    rounded
     transition-all 
     duration-300 
     ease-in-out
+    
     ${({ active }: { active: boolean }) => `
         ${
           active
             ? `
         text-zinc-600 
-        bg-white 
+        bg-white
         left-1 
         top-[-1rem] 
         `

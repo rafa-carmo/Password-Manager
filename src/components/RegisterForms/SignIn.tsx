@@ -12,6 +12,8 @@ type Inputs = {
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
+  const [logging, setLogging] = useState(false)
+  const [invalid, setInvalid] = useState(false)
   const {
     register,
     handleSubmit,
@@ -21,7 +23,12 @@ export default function SignIn() {
   const { authenticate, loading } = useContext(AuthContext)
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await authenticate(data)
+    setLogging(true)
+    setInvalid(false)
+    await authenticate(data).catch(() => {
+      setLogging(false)
+      setInvalid(true)
+    })
   }
 
   return (
@@ -42,7 +49,7 @@ export default function SignIn() {
                 Username
               </label>
               <input
-                className="rounded-xl"
+                className={`rounded-xl w-full ${invalid && 'border-red-500'}`}
                 type="text"
                 id="username"
                 {...register('login')}
@@ -55,12 +62,13 @@ export default function SignIn() {
               </label>
               <div className="relative w-full">
                 <input
-                  className="rounded-xl w-full"
+                  className={`rounded-xl w-full ${invalid && 'border-red-500'}`}
                   type={showPassword ? 'text' : 'password'}
                   {...register('password')}
                   id="password"
                   placeholder="Sua senha"
                 />
+
                 <button
                   type="button"
                   className="absolute right-2 top-0 bottom-0 my-auto"
@@ -71,11 +79,16 @@ export default function SignIn() {
               </div>
             </div>
           </div>
+          {invalid && (
+            <p className="pb-4 text-red-500">Usuario ou senha incorretos</p>
+          )}
           <div className="flex flex-col py-4 w-full items-center">
             <button
               type="submit"
-              className="w-full bg-indigo-700 hover:bg-indigo-500 text-white font-bold py-2 px-4 mb-6 rounded transition-colors duration-150"
+              className="w-full bg-indigo-700 hover:bg-indigo-500 text-white font-bold py-2 px-4 mb-6 rounded transition-colors duration-150 disabled:opacity-70 flex items-center justify-center gap-2"
+              disabled={logging}
             >
+              {logging && <Loading />}
               Entrar
             </button>
             <p className="text-base">

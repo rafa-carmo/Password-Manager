@@ -272,6 +272,13 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/generate-password@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@types/generate-password/-/generate-password-1.5.1.tgz#bd2d7296ad51fb0f3819be67acf60623f53da1f8"
+  integrity sha512-VGu9m+z/Itv9GzdiB9VCD3Y2f5VX+tI7OXE/ttBtQPPokl3eIVdahslvK7C18zhjbSoq3yzFbbDzEFwvBwa3bw==
+  dependencies:
+    generate-password "*"
+
 "@types/json-schema@^7.0.9":
   version "7.0.11"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
@@ -1384,6 +1391,11 @@ gauge@^3.0.0:
     string-width "^4.2.3"
     strip-ansi "^6.0.1"
     wide-align "^1.1.2"
+
+generate-password@*, generate-password@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/generate-password/-/generate-password-1.7.0.tgz#00ba4eb1e71f89a72307b0d6604ee0d4e7f5770c"
+  integrity sha512-WPCtlfy0jexf7W5IbwxGUgpIDvsZIohbI2DAq2Q6TSlKKis+G4GT9sxvPxrZUGL8kP6WUXMWNqYnxY6DDKAdFA==
 
 get-caller-file@^2.0.1:
   version "2.0.5"

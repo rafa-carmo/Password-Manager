@@ -25,7 +25,7 @@ export function HomeTemplate({ table }: HomeProps) {
     return setCreateModal(true)
   }
   return (
-    <Base>
+    <Base menuProps={{ countPasswords: table.rows.length }}>
       <S.Wrapper>
         <S.HeadContainer>
           <Head />

@@ -1,4 +1,4 @@
-import React, { ComponentProps, useState } from 'react'
+import { ComponentProps } from 'react'
 import Modal from 'react-modal'
 
 type ModalComponentProps = {

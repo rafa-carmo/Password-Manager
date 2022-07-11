@@ -1,3 +1,4 @@
+import { Tag } from '@prisma/client'
 import jwt from 'jwt-simple'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { env } from 'process'
@@ -22,6 +23,12 @@ export default async function handler(
       const passwords = await prisma.password.findMany({
         where: {
           userId: id
+        },
+        include: {
+          tags: true
+        },
+        orderBy: {
+          createdAt: 'desc'
         }
       })
       return res.status(200).json(passwords)
@@ -30,8 +37,10 @@ export default async function handler(
 
   if (method === 'POST') {
     type BodyData = {
+      title: string
       login: string
       password: string
+      tags: string
     }
 
     const tokenData = jwt.decode(token as string, env.JWT_SECRET || '')
@@ -48,13 +57,39 @@ export default async function handler(
         res
       )
     }
-    const { login, password }: BodyData = req.body
-    console.log(login, password)
+    const { title, login, password, tags }: BodyData = req.body
+
+    const camelize = (str: string) => {
+      const words = str.split(' ')
+      // console.log(words)
+
+      for (let i = 0; i < words.length; i++) {
+        words[i] = words[i][0].toUpperCase() + words[i].substr(1)
+      }
+      return words.join(' ')
+    }
+
+    const tagsArray = tags.split(',')
+    for (let i = 0; i < tagsArray.length; i++) {
+      tagsArray[i] = camelize(tagsArray[i].trim())
+    }
+
     const passwordCreate = await prisma.password.create({
       data: {
+        title,
         login,
         password,
-        userId: user.id
+        userId: user.id,
+        tags: {
+          connectOrCreate: tagsArray.map((tag) => ({
+            where: {
+              name: tag
+            },
+            create: {
+              name: tag
+            }
+          }))
+        }
       }
     })
 

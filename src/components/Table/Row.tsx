@@ -13,7 +13,10 @@ import HiddenField from './HiddenField'
 
 export type RowProps = {
   title: string
-  tags: string[]
+  tags?: {
+    id: string
+    name: string
+  }[]
   loginEncrypt?: string
   passwordEncrypt: string
 }
@@ -69,7 +72,7 @@ export default function Row({
 
   return (
     <tr className="focus:outline-none flex justify-between h-full border border-gray-100 dark:border-gray-600 rounded py-3">
-      <td className="max-w-md h-full">
+      <td className="max-w-md min-w-[10rem] h-full outline-red-400">
         <div className="pl-5">
           <p className="text-base font-medium leading-none h-full text-zinc-400 mr-2 transition-all duration-150 hover:text-zinc-800 truncate  py-2">
             {title}
@@ -79,10 +82,14 @@ export default function Row({
       <td className="px-5">
         <div className="flex h-full items-center">
           <Tag size={22} />
-          <p className="text-sm leading-none text-gray-600 ml-2">
-            {tags.slice(0, 2).join(', ')}
-            {tags.length > 2 && '...'}
-          </p>
+          {tags && tags?.length > 0 ? (
+            <p className="text-sm leading-none text-gray-600 ml-2">
+              {tags.slice(0, 2).map((tag) => tag.name + ', ')}
+              {tags.length > 2 && '...'}
+            </p>
+          ) : (
+            <p className="ml-4">Nenhuma tag associada</p>
+          )}
         </div>
       </td>
       <div className="w-full min-w-[15rem] flex items-center gap-2 justify-end">

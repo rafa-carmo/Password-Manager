@@ -41,6 +41,6 @@ model Password {
 
 model Tag {
   id            String @id @default(uuid())
-  name          String
+  name          String @unique
   passwords     Password[]
 }

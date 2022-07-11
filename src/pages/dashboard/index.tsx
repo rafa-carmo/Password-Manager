@@ -1,4 +1,3 @@
-import { Password } from '@prisma/client'
 import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
 import { HomeProps, HomeTemplate } from 'templates/Home'
@@ -33,6 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // const users = await res.json()
 
   // console.log(users)
+
   return {
     props: {
       home: {
