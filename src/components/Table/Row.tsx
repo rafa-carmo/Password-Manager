@@ -43,7 +43,7 @@ export default function Row({
       setPassword(null)
       return
     }
-
+    console.log(key)
     loginEncrypt &&
       setLogin(
         CryptoJS.AES.decrypt(loginEncrypt, key).toString(CryptoJS.enc.Utf8)

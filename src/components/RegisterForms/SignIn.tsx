@@ -14,12 +14,7 @@ export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
   const [logging, setLogging] = useState(false)
   const [invalid, setInvalid] = useState(false)
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors }
-  } = useForm<Inputs>()
+  const { register, handleSubmit } = useForm<Inputs>()
   const { authenticate, loading } = useContext(AuthContext)
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -80,7 +75,7 @@ export default function SignIn() {
             </div>
           </div>
           {invalid && (
-            <p className="pb-4 text-red-500">Usuario ou senha incorretos</p>
+            <p className="pb-4 text-red-500">Usuario ou senha inválido.</p>
           )}
           <div className="flex flex-col py-4 w-full items-center">
             <button

@@ -54,7 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         })
       })
       setLoading(false)
-      router.push('/dashboard')
+      // router.push('/dashboard')
       return
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

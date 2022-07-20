@@ -6,13 +6,15 @@ interface ButtonProps {
   label: string
   icon?: React.ReactNode
   loading?: boolean
+  onClick?: () => void
 }
 
-export function Button({ icon, label, loading = false }: ButtonProps) {
+export function Button({ icon, label, loading = false, onClick }: ButtonProps) {
   return (
     <button
       disabled={loading}
       className="inline-flex overflow-hidden text-white bg-gray-900 rounded group disabled:opacity-50"
+      onClick={onClick}
     >
       {icon && (
         <span className="px-3.5 py-2 text-white  bg-lime-500 group-disabled:group-hover:bg-lime-500 group-hover:bg-lime-600 transition-colors duration-100 flex items-center justify-center">

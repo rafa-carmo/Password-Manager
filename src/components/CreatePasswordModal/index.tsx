@@ -7,7 +7,6 @@ import CryptoJS from 'crypto-js'
 import { Key } from 'phosphor-react'
 import { useContext, useState } from 'react'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
-import Modal from 'react-modal'
 import { api } from 'services/api'
 
 import * as S from './styles'
@@ -51,7 +50,10 @@ export function CreatePasswordModal({
     if (login || login !== '') {
       encryptLogin = CryptoJS.AES.encrypt(login, key).toString()
     }
-    if (password || password !== '') {
+    if (!password) {
+      return
+    }
+    if (password !== '') {
       encryptPassword = CryptoJS.AES.encrypt(password, key).toString()
     }
 

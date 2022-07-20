@@ -37,7 +37,7 @@ export default async function handler(
         name: user.name
       })
     }
-    return res.status(400)
+    return res.status(400).send({})
   }
 
   if (method === 'POST') {

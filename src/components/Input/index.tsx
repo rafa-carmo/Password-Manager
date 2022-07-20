@@ -8,27 +8,33 @@ import * as S from './styles'
 interface InputComponentProps {
   label: string
   name: string
+  valuePre?: string
   id?: string
   autocomplete?: 'on' | 'off'
   autoPassword?: boolean
+  disabled?: boolean
 }
 
 export function InputComponent({
   label,
   name,
   id,
+  valuePre,
   autocomplete,
+  disabled,
   autoPassword
 }: InputComponentProps) {
-  const [active, setActive] = useState(false)
-  const { register } = useFormContext()
-  const inputRef = useRef<HTMLInputElement | null>(null)
+  const [active, setActive] = useState(!!valuePre)
+  // const [value, setValue] = useState(valuePre || '')
+  const { register, setValue } = useFormContext()
 
   function handleChange(value: string) {
     if (value !== '') {
       setActive(true)
+      setValue(name, value)
       return
     }
+    setValue(name, value)
     setActive(false)
   }
 
@@ -41,10 +47,10 @@ export function InputComponent({
       symbols: true,
       length: 10
     })
-    if (inputRef.current) {
-      setActive(true)
-      inputRef.current.value = password
-    }
+
+    setActive(true)
+    setValue(name, password)
+
     return
   }
 
@@ -56,12 +62,13 @@ export function InputComponent({
 
       <input
         type="text"
-        className="rounded w-full h-10"
+        className="rounded w-full h-10 disabled:border-black/10 disabled:text-zinc-500"
         id={id ? id : name}
-        {...register(name)}
-        onChange={(event) => handleChange(event.target.value)}
         autoComplete={autocomplete}
-        ref={inputRef}
+        disabled={disabled}
+        {...register(name)}
+        value={valuePre}
+        onChange={(event) => handleChange(event.target.value)}
       />
       {autoPassword && (
         <div className="flex w-full items-center justify-center gap-3 mt-2">

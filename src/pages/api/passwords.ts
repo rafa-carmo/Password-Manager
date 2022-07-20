@@ -70,8 +70,11 @@ export default async function handler(
     }
 
     const tagsArray = tags.split(',')
-    for (let i = 0; i < tagsArray.length; i++) {
-      tagsArray[i] = camelize(tagsArray[i].trim())
+    console.log(tagsArray)
+    if (tagsArray.length > 0 && tagsArray[0] !== '') {
+      for (let i = 0; i < tagsArray.length; i++) {
+        tagsArray[i] = camelize(tagsArray[i].trim())
+      }
     }
 
     const passwordCreate = await prisma.password.create({

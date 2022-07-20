@@ -3,7 +3,6 @@ import Head from 'components/Head'
 import { Table, TableProps } from 'components/Table'
 import { KeyContext } from 'contexts/KeyContext'
 import { ModalContext } from 'contexts/ModalOpen'
-import { Key } from 'phosphor-react'
 import { useContext, useState } from 'react'
 import Base from 'templates/Base'
 
@@ -32,7 +31,7 @@ export function HomeTemplate({ table }: HomeProps) {
         </S.HeadContainer>
         <S.TableContainer>
           <S.ButtonContainer>
-            <DropdownSorted />
+            {/* <DropdownSorted /> */}
             <S.Button onClick={addPasswordModal}> Adicionar Senha</S.Button>
             <CreatePasswordModal
               show={createModal}

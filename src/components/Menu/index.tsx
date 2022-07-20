@@ -9,7 +9,10 @@ import * as S from './styles'
 
 const buttons = {
   Passwords: { icon: <Key size={32} weight="thin" />, url: '/dashboard' },
-  Settings: { icon: <Gear size={32} weight="thin" />, url: '#' },
+  Settings: {
+    icon: <Gear size={32} weight="thin" />,
+    url: '/dashboard/settings'
+  },
   Sair: { icon: <SignOut size={32} weight="thin" />, url: 'sair' }
 }
 

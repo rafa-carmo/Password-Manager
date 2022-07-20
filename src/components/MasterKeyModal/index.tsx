@@ -1,3 +1,5 @@
+import { Button } from 'components/Button'
+import { ErrorContext } from 'contexts/ErrorContext'
 import { KeyContext } from 'contexts/KeyContext'
 import { ModalContext } from 'contexts/ModalOpen'
 import { Key, XCircle } from 'phosphor-react'
@@ -9,6 +11,7 @@ export function MasterKeyModal() {
   const { isOpen, setIsOpen } = useContext(ModalContext)
   const [password, setPassword] = useState<string | null>(null)
   const { setKeyValue } = useContext(KeyContext)
+  const { setErrorValue } = useContext(ErrorContext)
   function closeModal() {
     setIsOpen(false)
   }
@@ -29,11 +32,15 @@ export function MasterKeyModal() {
     }
   }
 
-  function handleSubmitPassword() {
+  async function handleSubmitPassword() {
     if (password) {
-      setKeyValue(password)
-      closeModal()
-      setPassword(null)
+      if (await setKeyValue(password)) {
+        closeModal()
+        setPassword(null)
+        return
+      }
+      setErrorValue('Key inválida')
+      console.log('aqui')
       return
     }
   }
@@ -74,7 +81,12 @@ export function MasterKeyModal() {
             />
           </div>
         </div>
-        <button
+        <Button
+          label="Unlock"
+          onClick={handleSubmitPassword}
+          icon={<Key size={22} />}
+        />
+        {/* <button
           disabled={!password}
           onClick={handleSubmitPassword}
           className="inline-flex overflow-hidden text-white bg-gray-900 rounded group disabled:opacity-50"
@@ -83,7 +95,7 @@ export function MasterKeyModal() {
             <Key size={22} />
           </span>
           <span className="pl-4 pr-5 py-2.5">Unlock</span>
-        </button>
+        </button> */}
       </S.Content>
     </S.Wrapper>
   )

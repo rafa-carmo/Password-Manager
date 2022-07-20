@@ -1,10 +1,11 @@
 import { createContext, useState, useEffect } from 'react'
+import { api } from 'services/api'
 import { useTimer } from 'use-timer'
 import { Status } from 'use-timer/lib/types'
 
 type KeyContextProps = {
   key: string | null
-  setKeyValue: (value: string) => void
+  setKeyValue: (value: string) => Promise<boolean>
   time: number | null
   deleteKey: () => void
   status: Status
@@ -23,10 +24,26 @@ export function KeyProvider({ children }: KeyProviderProps) {
     timerType: 'DECREMENTAL'
   })
 
-  function setKeyValue(value: string) {
-    setKey(value)
-    reset()
-    start()
+  async function verifyKey(key: string) {
+    const verify = await api
+      .post('/api/users/masterkey', {
+        masterKey: key
+      })
+      .catch()
+    if (verify) {
+      return true
+    }
+    return false
+  }
+
+  async function setKeyValue(value: string) {
+    if (await verifyKey(value)) {
+      setKey(value)
+      reset()
+      start()
+      return true
+    }
+    return false
   }
   function deleteKey() {
     setKey(null)
