@@ -1,5 +1,6 @@
 import { Loading } from 'components/Loading'
 import { AuthContext } from 'contexts/AuthContext'
+import Link from 'next/link'
 import { Eye, Key, EyeClosed } from 'phosphor-react'
 import React, { useState } from 'react'
 import { useContext } from 'react'
@@ -36,7 +37,7 @@ export default function SignIn() {
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full max-w-xs h-full flex flex-col items-center justify-around text-2xl md:text-base"
+          className="w-full max-w-xs h-full flex flex-col items-center justify-around"
         >
           <div className="w-full">
             <div className="flex flex-col py-4">
@@ -88,12 +89,11 @@ export default function SignIn() {
             </button>
             <p className="text-base">
               Não tem conta?
-              <a
-                href="#"
-                className="text-zinc-500 underline hover:text-zinc-700 transition-colors duration-150 pl-2"
-              >
-                Crie agora.
-              </a>
+              <Link href="/signUp">
+                <a className="text-zinc-500 underline hover:text-zinc-700 transition-colors duration-150 pl-2">
+                  Crie agora.
+                </a>
+              </Link>
             </p>
           </div>
         </form>

@@ -32,6 +32,6 @@ export const Content = tw.div`
     w-full
     h-full
     min-h-[40rem]
-    md:max-h-[40rem]
+    md:h-fit
     p-5
     `

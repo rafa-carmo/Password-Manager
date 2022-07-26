@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
-import { getAPIClient } from 'services/axios'
+import { getUser } from 'server/users'
 import { SettingsTemplate } from 'templates/Settings'
 import { SettingsTemplateProps } from 'templates/Settings/'
 
@@ -23,9 +23,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       }
     }
   }
-  const apiClient = getAPIClient(ctx)
-  const requestData = await apiClient.get('/api/users/signIn')
-  const data = requestData.data as SettingsTemplateProps
+  const data = await getUser(token)
+  console.log(data)
   return {
     props: {
       settings: data

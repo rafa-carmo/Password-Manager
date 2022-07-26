@@ -1,10 +1,10 @@
-import SignIn from 'components/RegisterForms/SignIn'
+import SignUp from 'components/RegisterForms/SignUp'
 import { SignInTemplate } from 'templates/SignIn'
 
 export default function signIn() {
   return (
     <SignInTemplate>
-      <SignIn />
+      <SignUp />
     </SignInTemplate>
   )
 }

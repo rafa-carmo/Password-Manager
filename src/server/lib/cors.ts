@@ -17,6 +17,7 @@ export const error = (
 
 const originCors = (origin: string) => {
   console.log(origin)
+
   if (!grantedOrigin) {
     return true
   }
@@ -30,6 +31,7 @@ const originCors = (origin: string) => {
 function initMiddleware() {
   return (req: NextApiRequest) =>
     new Promise((resolve, reject) => {
+      console.log(req.headers.host)
       if (originCors(req.headers.host as string)) {
         return resolve(true)
       }

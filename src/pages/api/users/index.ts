@@ -13,13 +13,13 @@ export default async function handler(
 ) {
   await NextCors(req)
   const { method } = req
-  if (method === 'GET') {
-    const users = await prisma.user.findMany()
+  // if (method === 'GET') {
+  //   const users = await prisma.user.findMany()
 
-    return res
-      .status(200)
-      .json(users.map((user) => excludeFromUser(user, 'password')))
-  }
+  //   return res
+  //     .status(200)
+  //     .json(users.map((user) => excludeFromUser(user, 'password')))
+  // }
 
   if (method === 'POST') {
     const { name, username, email, password } = req.body
@@ -40,12 +40,22 @@ export default async function handler(
 
     const userExist = await prisma.user.findMany({
       where: {
-        email,
-        username
+        OR: [{ email }, { username }]
       }
     })
     if (userExist.length > 0) {
-      return error({ message: 'User already exist', statusCode: 400 }, res)
+      const error = {
+        email: '',
+        username: ''
+      }
+
+      if (userExist.filter((user) => user.email === email).length > 0) {
+        error.email = 'E-mail ja cadastrado.'
+      }
+      if (userExist.filter((user) => user.username === username).length > 0) {
+        error.username = 'Username ja cadastrado.'
+      }
+      return res.status(400).json(error)
     }
     await prisma.user.create({
       data: {

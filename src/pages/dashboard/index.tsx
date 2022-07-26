@@ -1,8 +1,7 @@
 import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
+import { getPasswords } from 'server/passwords'
 import { HomeProps, HomeTemplate } from 'templates/Home'
-
-import { getAPIClient } from '../../services/axios'
 
 interface DashboardProps {
   home: HomeProps
@@ -22,9 +21,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       }
     }
   }
-  const apiClient = getAPIClient(ctx)
-  const passwordsRequest = await apiClient.get('/api/passwords')
-  const passwords = passwordsRequest.data
+
+  const passwords = await getPasswords(token)
 
   return {
     props: {

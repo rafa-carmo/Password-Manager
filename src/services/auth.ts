@@ -16,10 +16,8 @@ export async function recoverUserInformation(token: string) {
     if (!user) {
       return new Error('User not found')
     }
-    console.log(user)
     return user.data as User
   } catch (error) {
-    console.log(error)
     return error
   }
 }

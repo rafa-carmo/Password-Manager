@@ -4,17 +4,23 @@ import { KeyContext } from 'contexts/KeyContext'
 import { ModalContext } from 'contexts/ModalOpen'
 import { Key, XCircle } from 'phosphor-react'
 import { useContext, useState } from 'react'
-import Modal from 'react-modal'
 
 import * as S from './styles'
 export function MasterKeyModal() {
   const { isOpen, setIsOpen } = useContext(ModalContext)
   const [password, setPassword] = useState<string | null>(null)
-  const { setKeyValue } = useContext(KeyContext)
+  const [verifyPassword, setVerifyPassword] = useState(false)
+  const { setKeyValue, verifyKey } = useContext(KeyContext)
   const { setErrorValue } = useContext(ErrorContext)
   function closeModal() {
     setIsOpen(false)
   }
+
+  // const router = useRouter()
+  // // const { 'passwordManager.token': token } = parseCookies()
+  // // if (!token) {
+  // //   router.push('/signIn')
+  // // }
 
   function handlePasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.value.length > 0) {
@@ -33,14 +39,21 @@ export function MasterKeyModal() {
   }
 
   async function handleSubmitPassword() {
+    setVerifyPassword(true)
     if (password) {
-      if (await setKeyValue(password)) {
+      const verify = await verifyKey(password)
+      if (verify === true) {
+        setKeyValue(password)
+
         closeModal()
         setPassword(null)
+        setVerifyPassword(false)
         return
       }
+
       setErrorValue('Key inválida')
-      console.log('aqui')
+      setVerifyPassword(false)
+
       return
     }
   }
@@ -83,6 +96,7 @@ export function MasterKeyModal() {
         </div>
         <Button
           label="Unlock"
+          loading={verifyPassword}
           onClick={handleSubmitPassword}
           icon={<Key size={22} />}
         />

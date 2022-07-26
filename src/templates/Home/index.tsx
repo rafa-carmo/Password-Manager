@@ -6,7 +6,6 @@ import { ModalContext } from 'contexts/ModalOpen'
 import { useContext, useState } from 'react'
 import Base from 'templates/Base'
 
-import DropdownSorted from './DropdownSorted'
 import * as S from './styles'
 
 export interface HomeProps {

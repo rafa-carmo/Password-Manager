@@ -4,6 +4,7 @@ import { ErrorContext } from 'contexts/ErrorContext'
 import { KeyContext } from 'contexts/KeyContext'
 import { ModalContext } from 'contexts/ModalOpen'
 import CryptoJS from 'crypto-js'
+import { useRouter } from 'next/router'
 import { Key } from 'phosphor-react'
 import { useContext, useState } from 'react'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
@@ -31,6 +32,7 @@ export function CreatePasswordModal({
   const { key } = useContext(KeyContext)
   const { setIsOpen } = useContext(ModalContext)
   const { setErrorValue } = useContext(ErrorContext)
+  const router = useRouter()
 
   const [apiLoading, setApiLoading] = useState(false)
 
@@ -70,6 +72,7 @@ export function CreatePasswordModal({
       .then(() => {
         methods.reset()
         onClose()
+        router.push('/dashboard')
       })
 
     setApiLoading(false)

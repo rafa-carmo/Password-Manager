@@ -15,7 +15,7 @@ export default async function handler(
     if (req.headers.authorization) {
       const { masterKey }: { masterKey?: string } = req.body
       if (!masterKey) {
-        return error({ message: 'Key not defiend', statusCode: 400 }, res)
+        return error({ message: 'Key not defined', statusCode: 400 }, res)
       }
       const payload = jwt.decode(
         req.headers.authorization.replace('Bearer ', ''),
@@ -29,9 +29,9 @@ export default async function handler(
         return res.status(200).send(true)
       }
 
-      return res.status(400).send({})
+      return error({ message: 'Invalid Key', statusCode: 400 }, res)
     }
-    return res.status(400).send({})
+    return error({ message: 'Token not found', statusCode: 400 }, res)
   }
 
   return res.status(400).json({ message: 'Method not allowed' })

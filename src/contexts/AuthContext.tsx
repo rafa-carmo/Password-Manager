@@ -70,6 +70,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     setCookie(undefined, 'passwordManager.token', data.token, {
       maxAge: 60 * 60 * 4 // 4 hours
+      // maxAge: 5 // 4 hours
     })
     // api.defaults.headers.common['Authorizathion'] = `Bearer ${data.token}`
     api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`

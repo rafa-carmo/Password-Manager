@@ -3,7 +3,7 @@ import { ErrorContext } from 'contexts/ErrorContext'
 import { KeyContext } from 'contexts/KeyContext'
 import { ModalContext } from 'contexts/ModalOpen'
 import CryptoJS from 'crypto-js'
-import { Eye, EyeClosed, Lock, Tag, XSquare } from 'phosphor-react'
+import { Eye, EyeClosed, Lock, Tag, Trash, XSquare } from 'phosphor-react'
 import { useContext, useState, useEffect } from 'react'
 import { MdQrCodeScanner } from 'react-icons/md'
 
@@ -43,7 +43,7 @@ export default function Row({
       setPassword(null)
       return
     }
-    console.log(key)
+
     loginEncrypt &&
       setLogin(
         CryptoJS.AES.decrypt(loginEncrypt, key).toString(CryptoJS.enc.Utf8)
@@ -130,6 +130,17 @@ export default function Row({
           </button>
         )}
       </td>
+      {password && (
+        <td className="flex items-center pr-4">
+          <button
+            type="button"
+            className="text-zinc-400 hover:text-red-500 transition-colors duration-75"
+            onClick={() => setErrorValue('Deletar ainda não implementado')}
+          >
+            <Trash size={22} />
+          </button>
+        </td>
+      )}
       {modalOpen && (
         <ModalComponent isOpen={modalOpen} onRequestClose={handleCloseModal}>
           <div className="relative bg-zinc-200 p-2 rounded-lg">

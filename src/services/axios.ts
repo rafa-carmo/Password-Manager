@@ -2,6 +2,7 @@ import axios from 'axios'
 import * as express from 'express'
 import * as next from 'next'
 import { parseCookies } from 'nookies'
+import { env } from 'process'
 
 export function getAPIClient(
   ctx?:
@@ -17,7 +18,7 @@ export function getAPIClient(
 ) {
   const { 'passwordManager.token': token } = parseCookies(ctx)
   const api = axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: env.FRONTEND_URL
   })
   if (token) {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`
