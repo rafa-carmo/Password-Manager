@@ -5,7 +5,6 @@ import { encrypt } from 'server/lib/bcrypt'
 import NextCors, { error } from 'server/lib/cors'
 import { transport } from 'server/lib/nodemailer'
 import { prisma } from 'server/prisma'
-import { excludeFromUser } from 'server/utils/user'
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,13 +12,28 @@ export default async function handler(
 ) {
   await NextCors(req)
   const { method } = req
-  // if (method === 'GET') {
-  //   const users = await prisma.user.findMany()
+  if (method === 'GET') {
+    if (req.headers.authorization) {
+      const payload = jwt.decode(
+        req.headers.authorization.replace('Bearer ', ''),
+        env.JWT_SECRET || ''
+      )
 
-  //   return res
-  //     .status(200)
-  //     .json(users.map((user) => excludeFromUser(user, 'password')))
-  // }
+      const user = await prisma.user.findFirst({ where: { id: payload.id } })
+
+      if (!user) {
+        return res.status(401).json({ error: 'User not found' })
+      }
+      return res.status(200).json({
+        username: user.username,
+        avatar: user.avatar,
+        email: user.email,
+        masterKey: user.masterKey,
+        isVerified: user.isVerified,
+        name: user.name
+      })
+    }
+  }
 
   if (method === 'POST') {
     const { name, username, email, password } = req.body
@@ -74,7 +88,7 @@ export default async function handler(
         '<div style="display: grid; place-items: center">',
         `<h4>Olá ${name},</h4>`,
         '<p>Para confirmar seu cadastro na plataforma, acesse o link abaixo: </p>',
-        `<a href="${env.FRONTEND_URL}/api/users/validateEmail?token=${token}" target="_blank" style="text-decoration: none; cursor: pointer;"><button style="background: #ABDAFC; padding: 15px;"><font color="#494949">[Link]</font></button></a>`,
+        `<a href="${env.FRONTEND_URL}/verify/verify-email?token=${token}" target="_blank" style="text-decoration: none; cursor: pointer;"><button style="background: #ABDAFC; padding: 15px;"><font color="#494949">[Link]</font></button></a>`,
         '</div>'
       ].join('\n')
     })

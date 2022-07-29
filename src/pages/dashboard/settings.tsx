@@ -24,7 +24,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
   const data = await getUser(token)
-  console.log(data)
   return {
     props: {
       settings: data

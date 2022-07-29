@@ -18,3 +18,37 @@ export async function getUser(token: string) {
     name: user.name
   }
 }
+
+export async function validateUserEmail(token: string) {
+  try {
+    const tokenData = jwt.decode(token as string, env.JWT_SECRET || '')
+    const { email } = tokenData
+    if (!email) {
+      return new Error('Invalid token')
+    }
+
+    const userExist = await prisma.user.findUnique({
+      where: {
+        email
+      }
+    })
+    if (!userExist) {
+      return new Error('Invalid token')
+    }
+    if (userExist.isVerified) {
+      return new Error('E-mail already validated')
+    }
+
+    return await prisma.user
+      .update({
+        where: { email },
+        data: {
+          isVerified: true
+        }
+      })
+      .then(() => true)
+      .catch((err) => new Error(err))
+  } catch (e) {
+    return new Error('Invalid token')
+  }
+}

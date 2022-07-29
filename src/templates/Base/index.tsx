@@ -1,5 +1,7 @@
 import { MasterKeyModal } from 'components/MasterKeyModal'
+import { CreateMasterKey } from 'components/MasterKeyModal/CreateMasterKey'
 import Menu, { MenuProps } from 'components/Menu'
+import { AuthContext } from 'contexts/AuthContext'
 import { ErrorContext } from 'contexts/ErrorContext'
 import { KeyContext } from 'contexts/KeyContext'
 import { ModalContext } from 'contexts/ModalOpen'
@@ -19,6 +21,7 @@ export default function Base({ menuProps, children }: BaseProps) {
   const { time, deleteKey, status } = useContext(KeyContext)
   const { error } = useContext(ErrorContext)
   const { setIsOpen } = useContext(ModalContext)
+  const { user } = useContext(AuthContext)
   const updateDimensions = () => {
     if (ref.current) {
       setWidth(ref.current.clientWidth)
@@ -42,7 +45,7 @@ export default function Base({ menuProps, children }: BaseProps) {
         <Menu {...menuProps} />
       </S.MenuContainer>
       <S.Content ref={ref}>
-        <MasterKeyModal />
+        {user?.masterKey ? <MasterKeyModal /> : <CreateMasterKey />}
         {children}
       </S.Content>
       <S.FooterContent style={{ width }}>

@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router'
 import { parseCookies } from 'nookies'
-import { createContext, useState, useEffect, useContext } from 'react'
+import { createContext, useState, useEffect } from 'react'
 import { api } from 'services/api'
 import { useTimer } from 'use-timer'
 import { Status } from 'use-timer/lib/types'
-
-import { ErrorContext } from './ErrorContext'
 
 type KeyContextProps = {
   key: string | null
@@ -70,13 +68,14 @@ export function KeyProvider({ children }: KeyProviderProps) {
     return
   }
   useEffect(() => {
-    if (time) {
+    if (status === 'RUNNING') {
       verifyToken()
       if (time <= 0) {
         setKey(null)
         reset()
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time, reset])
   return (
     <KeyContext.Provider

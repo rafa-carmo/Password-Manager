@@ -13,7 +13,11 @@ export default async function handler(
   const { method } = req
   if (method === 'POST') {
     if (req.headers.authorization) {
-      const { masterKey }: { masterKey?: string } = req.body
+      const {
+        masterKey,
+        isCreate
+      }: { masterKey?: string; isCreate?: boolean } = req.body
+
       if (!masterKey) {
         return error({ message: 'Key not defined', statusCode: 400 }, res)
       }
@@ -24,8 +28,30 @@ export default async function handler(
 
       const user = await prisma.user.findFirst({ where: { id: payload.id } })
 
+      if (!user) {
+        return error({ message: 'user not found', statusCode: 400 }, res)
+      }
+
+      if (isCreate) {
+        if (user.masterKey) {
+          return error({ message: 'key is defined', statusCode: 400 }, res)
+        }
+
+        const masterKeyCrypt = CryptoJS.SHA256(masterKey).toString()
+        await prisma.user.update({
+          where: {
+            id: user.id
+          },
+          data: {
+            masterKey: masterKeyCrypt
+          }
+        })
+
+        return res.status(200).json({ success: true })
+      }
+
       const masterKeyCrypt = CryptoJS.SHA256(masterKey).toString()
-      if (masterKeyCrypt === user?.masterKey) {
+      if (masterKeyCrypt === user.masterKey) {
         return res.status(200).send(true)
       }
 

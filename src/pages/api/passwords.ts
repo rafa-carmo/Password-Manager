@@ -1,4 +1,3 @@
-import { Tag } from '@prisma/client'
 import jwt from 'jwt-simple'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { env } from 'process'
@@ -77,7 +76,7 @@ export default async function handler(
       }
     }
 
-    const passwordCreate = await prisma.password.create({
+    await prisma.password.create({
       data: {
         title,
         login,

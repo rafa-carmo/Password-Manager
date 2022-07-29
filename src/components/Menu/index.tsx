@@ -23,6 +23,7 @@ export interface MenuProps {
 
 export default function Menu({ countPasswords }: MenuProps) {
   const { user, loading } = useContext(AuthContext)
+
   return (
     <S.Wrapper>
       {loading ? (
@@ -34,21 +35,25 @@ export default function Menu({ countPasswords }: MenuProps) {
             <h2 className="font-bold text-lg">Password Manager</h2>
           </S.LogoContainer>
           <S.UserContent>
-            {user?.avatar ? (
-              <img
-                className="w-28 h-28 rounded-full"
-                src={user.avatar}
-                alt="user avatar"
-              />
+            {user ? (
+              user?.avatar ? (
+                <img
+                  className="w-28 h-28 rounded-full"
+                  src={user.avatar}
+                  alt="user avatar"
+                />
+              ) : (
+                <div className="w-28 h-28 rounded-full border border-zinc-200">
+                  <span className="text-center text-2xl font-bold flex items-center justify-center h-full uppercase text-zinc-400">
+                    {`${user?.name.charAt(0)}${user?.name.charAt(1)}`}
+                  </span>
+                </div>
+              )
             ) : (
-              <div className="w-28 h-28 rounded-full border border-zinc-200">
-                <span className="text-center text-2xl font-bold flex items-center justify-center h-full uppercase text-zinc-400">
-                  {`${user?.name.charAt(0)}${user?.name.charAt(1)}`}
-                </span>
-              </div>
+              <Loading />
             )}
             <h2>{user?.name}</h2>
-            <h2>{countPasswords ? countPasswords : '0'} Senhas registradas</h2>
+            {countPasswords ? <h2>{countPasswords} Senhas registradas</h2> : ''}
           </S.UserContent>
           <S.Content>
             {Object.keys(buttons).map((key) => (

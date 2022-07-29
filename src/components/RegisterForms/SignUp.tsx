@@ -10,7 +10,7 @@ import {
   useForm
 } from 'react-hook-form'
 import { api } from 'services/api'
-import { createUserValidation } from 'utils/validations/signUp'
+import { createUserValidation } from 'utils/validations/sign'
 
 import { InputRegister, InputProps } from './InputRegister'
 

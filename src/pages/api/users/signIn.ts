@@ -4,10 +4,12 @@ import { env } from 'process'
 import NextCors, { error } from 'server/lib/cors'
 import { prisma } from 'server/prisma'
 import { signInRequest } from 'server/signIn'
+import { api } from 'services/api'
 
 type BodyData = {
   login: string
   password: string
+  captcha: string
 }
 
 export default async function handler(
@@ -41,8 +43,11 @@ export default async function handler(
   }
 
   if (method === 'POST') {
-    const { login, password }: BodyData = req.body
+    const { login, password, captcha }: BodyData = req.body
 
+    if (!captcha) {
+      return error({ message: 'captcha is not resolved', statusCode: 400 }, res)
+    }
     if (!login) {
       return error(
         { message: 'Username and email are required', statusCode: 400 },
@@ -53,7 +58,17 @@ export default async function handler(
     if (!password) {
       return error({ message: 'Password is required', statusCode: 400 }, res)
     }
+    const hcaptchaData = { response: captcha, secret: env.CAPTCHA_SECRET }
+    const verifyCapchaRequest = await api.post(
+      `https://hcaptcha.com/siteverify?secret=${env.CAPTCHA_SECRET}&response=${captcha}`,
+      hcaptchaData
+    )
 
+    const verifyCaptcha = verifyCapchaRequest.data
+
+    if (!verifyCaptcha.success) {
+      return error({ message: 'Captcha invalido', statusCode: 400 }, res)
+    }
     const user = await signInRequest({ login, password })
 
     if (user instanceof Error) {
@@ -62,6 +77,16 @@ export default async function handler(
       }
       if (user.message === 'Password is incorrect') {
         return error({ message: 'Password is incorrect', statusCode: 400 }, res)
+      }
+      if (user.message === 'User not verified') {
+        return error(
+          {
+            message:
+              'Usuario não verificado - Favor verifique sua caixa de e-mail',
+            statusCode: 400
+          },
+          res
+        )
       }
       return error({ message: 'Something went wrong', statusCode: 400 }, res)
     }

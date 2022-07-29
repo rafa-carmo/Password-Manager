@@ -100,16 +100,6 @@ export function MasterKeyModal() {
           onClick={handleSubmitPassword}
           icon={<Key size={22} />}
         />
-        {/* <button
-          disabled={!password}
-          onClick={handleSubmitPassword}
-          className="inline-flex overflow-hidden text-white bg-gray-900 rounded group disabled:opacity-50"
-        >
-          <span className="px-3.5 py-2 text-white  bg-lime-500 group-disabled:group-hover:bg-lime-500 group-hover:bg-lime-600 transition-colors duration-100 flex items-center justify-center">
-            <Key size={22} />
-          </span>
-          <span className="pl-4 pr-5 py-2.5">Unlock</span>
-        </button> */}
       </S.Content>
     </S.Wrapper>
   )
