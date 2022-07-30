@@ -1,7 +1,7 @@
 import { ErrorContext } from 'contexts/ErrorContext'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import { isValidElement, useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { validateUserEmail } from 'server/users'
 
 interface VerifyEmailProps {

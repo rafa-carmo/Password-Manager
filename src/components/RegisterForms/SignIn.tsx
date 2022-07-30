@@ -45,7 +45,6 @@ export default function SignIn() {
   const { authenticate, loading } = useContext(AuthContext)
 
   const onSubmit: SubmitHandler<Inputs> = async (inputData) => {
-    console.log(inputData)
     const errors = loginUserValidation(inputData)
     if (Object.keys(errors).length) {
       setErrors(errors)
