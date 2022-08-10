@@ -1,6 +1,8 @@
 import { Button } from 'components/Button'
+import { AuthContext } from 'contexts/AuthContext'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useContext } from 'react'
 
 import LockSvg from '../../assets/lock.svg'
 import PersonSvg from '../../assets/person.svg'
@@ -8,6 +10,7 @@ import * as S from './styles'
 
 export function Landingpage() {
   const router = useRouter()
+  const { user } = useContext(AuthContext)
   return (
     <S.Wrapper>
       <S.Menu>
@@ -15,10 +18,26 @@ export function Landingpage() {
           <LockSvg className="md:w-12 md:h-12 w-8 h-8" />
         </p>
         <S.ButtonsContainer>
-          <Link href="/signIn">
-            <a>Entrar</a>
-          </Link>
-          <Button label="Cadastre-se" onClick={() => router.push('/signUp')} />
+          {user ? (
+            <>
+              <p className="pr-2">
+                Bem vindo <strong>{user.name}</strong>
+              </p>
+              <Link href="/dashboard">
+                <a>Dashboard</a>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/signIn">
+                <a>Entrar</a>
+              </Link>
+              <Button
+                label="Cadastre-se"
+                onClick={() => router.push('/signUp')}
+              />
+            </>
+          )}
         </S.ButtonsContainer>
       </S.Menu>
       <S.Content>
@@ -28,7 +47,7 @@ export function Landingpage() {
           </h3>
 
           <p className="w-full md:min-h-[10rem]">
-            Gerencie suas senhas de um forma simples.
+            Gerencie suas senhas de forma simples.
           </p>
         </S.DescriptionContainer>
 
