@@ -9,7 +9,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  await NextCors(req)
+  // await NextCors(req)
   const { method } = req
   if (method === 'POST') {
     if (req.headers.authorization) {

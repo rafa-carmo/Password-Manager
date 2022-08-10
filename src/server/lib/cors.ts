@@ -29,8 +29,6 @@ const originCors = (origin: string) => {
 }
 
 function initMiddleware() {
-  return true
-  
   return (req: NextApiRequest) =>
     new Promise((resolve, reject) => {
       console.log(req.headers.host)
